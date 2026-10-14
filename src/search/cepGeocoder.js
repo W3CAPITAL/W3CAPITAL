@@ -1,5 +1,7 @@
 /** CEP lookup for Brazil. Postal geometry is approximate, never a rooftop. */
 import { PUBLIC_BRAZIL_APIS } from '../config/publicBrazilApis.js';
+import { rankBrazilCandidates } from './brazilPrecision.js';
+import { normalizeGooglePlace } from './google.js';
 const endpoint = PUBLIC_BRAZIL_APIS.cep.brasilApiV2;
 const memo = new Map();
 export function parseCepQuery(input) {
@@ -50,7 +52,33 @@ export async function geocodeCep(query, { fetchImpl = fetch, signal, cache = mem
     return { place: null, answered: false };
   }
   signal?.throwIfAborted();
-  const place = answered ? normalizeCepRow(row, digits).place : null;
+  let place = answered ? normalizeCepRow(row, digits).place : null;
+  // BrasilAPI may know the CEP address but have no coordinates. In that case
+  // locate its exact street + municipality through the same Brazilian ranked
+  // geocoder rather than guessing a square in São Paulo or a nearby landmark.
+  if (!place && row?.street && row?.city && row?.state) {
+    const address = [row.street, row.city + ' - ' + row.state].join(', ');
+    try {
+      const qs = new URLSearchParams({ q: address, country: 'br' });
+      const timeout = AbortSignal.timeout(6500);
+      const joint = signal ? AbortSignal.any([signal, timeout]) : timeout;
+      const geo = await fetchImpl('/api/geocode?' + qs, { signal: joint });
+      if (geo.ok) {
+        const found = await geo.json();
+        const ranked = found?.status === 'OK' ? rankBrazilCandidates(address, found.results) : [];
+        if (ranked.length) {
+          place = normalizeGooglePlace(ranked[0]);
+          if (place) {
+            place.name = row.street;
+            place.label = [row.street, row.neighborhood, row.city + ' - ' + row.state, 'CEP ' + formatCep(digits)].filter(Boolean).join(', ');
+            place.types = ['postal_code'];
+            place.postalApproximate = true;
+            place.exact = true; // prevent unsafe landmark fallback; NOT rooftop precision
+          }
+        }
+      }
+    } catch { signal?.throwIfAborted(); /* Keep non-geocoded CEP honest. */ }
+  }
   const value = { place, answered };
   if (answered) {
     cache.set(digits, { value, until: Date.now() + (place ? 86400000 : 300000) });
