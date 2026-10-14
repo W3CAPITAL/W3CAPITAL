@@ -36,10 +36,16 @@ export function installBrazilExplorer({doc=document,fetchImpl=fetch}={}) {
  notice.textContent='Acesse somente câmeras públicas nos portais oficiais. Sem imagens simuladas ou localização presumida.';
  const results=doc.createElement('div');results.className='br-explorer-results';results.setAttribute('aria-live','polite');
  const source=doc.createElement('div');source.className='br-explorer-source';source.textContent='Fonte: CET São Paulo, DER-SP e portais governamentais';
+ const mapsLink=doc.createElement('a');
+ mapsLink.className='br-explorer-maps-link';
+ mapsLink.textContent='Abrir pesquisa no Google Maps ↗';
+ mapsLink.target='_blank';
+ mapsLink.rel='noopener noreferrer';
+ mapsLink.href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent('São Paulo, SP, Brasil');
  const footer=doc.createElement('div');footer.className='br-explorer-footer';
  const threeD=button('◈ Ativar Google 3D','br-explorer-three-d');
  const sourceHint=doc.createElement('span');sourceHint.textContent='3D real exige chave Maps Tiles ou Cesium ion';
- footer.append(threeD,sourceHint);dialog.append(heading,tabs,form,notice,results,source,footer);
+ footer.append(threeD,sourceHint);dialog.append(heading,tabs,form,mapsLink,notice,results,source,footer);
  doc.body.append(launcher,dialog);
  let kind='cameras',controller=null,seq=0,spOffset=0;
  const say=text=>{results.replaceChildren();const p=doc.createElement('p');p.className='br-explorer-message';p.textContent=text;results.appendChild(p);};
@@ -77,6 +83,7 @@ export function installBrazilExplorer({doc=document,fetchImpl=fetch}={}) {
  async function search(){
    if(kind==='districts'){showDistricts();return;}
    const q=input.value.trim();
+   mapsLink.href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q || 'São Paulo, SP, Brasil');
    if(kind!=='municipios' && q.length<2){say('Informe uma rua, bairro ou cidade.');return;}
    controller?.abort();controller=new AbortController();const current=++seq;
    submit.disabled=true;submit.textContent='Buscando…';say('Consultando as fontes…');
