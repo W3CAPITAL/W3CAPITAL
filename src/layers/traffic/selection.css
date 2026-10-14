@@ -1,0 +1,12 @@
+.gev-traffic-vehicle-info{position:fixed;right:18px;bottom:136px;z-index:171;width:min(390px,calc(100vw - 36px));max-height:min(68vh,610px);overflow:auto;background:#081d2c;box-shadow:0 16px 42px #000b;border:1px solid #3e829d;border-radius:14px;color:#e4f8ff;padding:16px;font:13px/1.5 Inter,system-ui,sans-serif}
+.gev-traffic-vehicle-info[hidden]{display:none!important}
+.gev-vehicle-top{display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid #274456;padding-bottom:10px}
+.gev-vehicle-top strong{font-size:13px;letter-spacing:.04em}
+.gev-vehicle-top button{border:1px solid #446479;background:#15374b;color:#e4f8ff;border-radius:8px;min-width:42px;min-height:42px;cursor:pointer;font-size:25px}
+.gev-vehicle-details{display:flex;flex-direction:column;gap:7px;padding-top:9px}
+.gev-vehicle-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;border-bottom:1px solid #203b4c;padding:7px 0}
+.gev-vehicle-row span{color:#a7c4d1;flex:0 0 42%}
+.gev-vehicle-row strong{text-align:right;word-break:break-word}
+.gev-vehicle-note{color:#b3d0de;margin:6px 0;font-size:12px}
+.gev-vehicle-details a{display:block;color:#66d8ff;text-decoration:underline;padding:10px 0;min-height:42px}
+@media(max-width:650px){.gev-traffic-vehicle-info{bottom:102px;right:9px;width:calc(100vw - 18px);max-height:55vh}}
