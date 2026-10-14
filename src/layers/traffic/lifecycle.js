@@ -1,3 +1,4 @@
+import { installTrafficSelection } from './selection.js';
 import { observeTrafficSurface } from './surface.js';
 import * as Cesium from 'cesium';
 import { TRAFFIC_TIMING_ENABLED } from './policy.js';
@@ -79,6 +80,8 @@ export function createLifecycle({
     enable(viewer) {
       if (layerState._enabled) return;
       layerState._enabled = true;
+      layerState._trafficSelectionRemover?.();
+      layerState._trafficSelectionRemover = installTrafficSelection(viewer, layerState);
       layerState._surfaceFrameRemover = observeTrafficSurface(viewer.scene);
       if (layerState._roadMode !== 'tomtom') source.prefetch?.();
       holdContinuousRender('traffic'); // per-frame animator (perf wave 2)
@@ -141,6 +144,8 @@ export function createLifecycle({
      */
     disable(viewer) {
       layerState._enabled = false;
+      layerState._trafficSelectionRemover?.();
+      layerState._trafficSelectionRemover = null;
       services.credits?.hideOsmCredit?.(layerState._viewer, 'traffic');
       releaseContinuousRender('traffic');
       clearTimeout(layerState._fetchTimeout);
