@@ -99,6 +99,15 @@ function translateTree(root,doc) {
     applyElement(root);
     for(const el of root.querySelectorAll('*'))applyElement(el);
   }
+  if(root.nodeType===3) {
+    const el=root.parentElement;
+    if(el && !el.closest('#cesium-credits, .cesium-widget-credits, [data-no-translate]') && !skip.split(',').includes(el.tagName)) {
+      const value=root.nodeValue;
+      const translated=translateUiText(value);
+      if(value!==translated)root.nodeValue=value.replace(value.trim(),translated);
+    }
+    return;
+  }
   if(root.nodeType!==1 && root.nodeType!==9 && root.nodeType!==11)return;
   const walker=doc.createTreeWalker(root,4); // NodeFilter.SHOW_TEXT
   let node;
