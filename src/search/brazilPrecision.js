@@ -16,7 +16,11 @@ export function classifyBrazilQuery(query) {
   const streetName = street ? parts[0].slice(street[0].length).trim() : '';
   const stateMatch = /(?:^|[\s,–—-])([A-Za-z]{2})(?:\s|$)/.exec(suffix);
   const state = stateMatch && UF.has(stateMatch[1].toUpperCase()) ? stateMatch[1].toUpperCase() : null;
-  const city = parts.length > 1 ? foldBrazil(parts[1].replace(/\b[A-Za-z]{2}\s*$/, '')) : '';
+  let cityPart = parts.at(-1) || '';
+  if (UF.has(cityPart.toUpperCase())) cityPart = parts.at(-2) || '';
+  const city = parts.length > 1
+    ? foldBrazil(cityPart.replace(/(?:^|[\\s-])(?:AC|AL|AP|AM|BA|CE|DF|ES|GO|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SC|SP|SE|TO)\\s*$/i, ''))
+    : '';
   return { streetType: street ? foldBrazil(street[1]).replace(/^r$/, 'rua').replace(/^av$/, 'avenida').replace(/^trav$/, 'travessa') : null,
     streetWords: words(streetName), city, state, strict: Boolean(street || parts.length > 1) };
 }
