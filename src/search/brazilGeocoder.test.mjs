@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createBrazilGeocoder, isBrazilianAddress } from './brazilGeocoder.js';
+import { createBrazilGeocoder, isBrazilianAddress, normalizeBrazilSearchQuery } from './brazilGeocoder.js';
 test('identifica ruas brasileiras com UF', () => {
   for (const q of ['Rua Augusta, São Paulo - SP', 'Av. Paulista, São Paulo, SP', 'Praça da Sé', 'Curitiba, PR', 'Alameda Santos'])
     assert.ok(isBrazilianAddress(q), q);
@@ -16,4 +16,10 @@ test('envia localização BR, normaliza coordenadas e aproveita cache', async ()
   assert.match(calls[0], /country=br/);
   await adapter.geocode('Rua Augusta, São Paulo - SP');
   assert.equal(calls.length, 1);
+});
+
+test('rua sem município prioriza SP mas respeita endereço informado em outra cidade',()=>{
+ assert.equal(normalizeBrazilSearchQuery('Rua Augusta'),'Rua Augusta, São Paulo - SP');
+ assert.equal(normalizeBrazilSearchQuery('Rua Augusta, Campinas - SP'),'Rua Augusta, Campinas - SP');
+ assert.equal(normalizeBrazilSearchQuery('Avenida Rio Branco, Rio de Janeiro, RJ'),'Avenida Rio Branco, Rio de Janeiro, RJ');
 });
