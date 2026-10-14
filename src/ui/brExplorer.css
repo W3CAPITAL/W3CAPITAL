@@ -18,3 +18,8 @@
 .br-explorer-message{padding:12px;color:#d4e7f2}
 @media (max-width:800px){.br-explorer-launcher{top:8px;right:8px;font-size:11px}.br-explorer-panel{top:58px;right:8px;bottom:120px;padding:12px;width:calc(100vw - 16px)}}
 @media (prefers-reduced-motion:reduce){.br-explorer-panel *, .br-explorer-launcher{animation:none!important;transition:none!important}}
+
+.br-explorer-maps-link{display:block;padding:10px;border:1px solid #37718e;border-radius:8px;background:#103042;color:#7fe3ff;text-decoration:underline;text-underline-offset:3px;text-align:center;min-height:44px}
+.br-explorer-maps-link:hover,.br-explorer-maps-link:focus-visible{background:#1a5772}
+.br-explorer-tabs{flex-wrap:wrap}.br-explorer-tabs button{min-width:calc(50% - 8px)}
+.br-explorer-pages{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px}
