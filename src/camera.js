@@ -5,6 +5,10 @@ import * as Cesium from 'cesium';
  * Phase 1 default: fly to Austin, TX on load.
  */
 export const CAMERA_PRESETS = {
+  saoPaulo: {
+    destination: Cesium.Cartesian3.fromDegrees(-46.6559, -23.5614, 1400),
+    orientation: { heading: Cesium.Math.toRadians(15), pitch: Cesium.Math.toRadians(-38), roll: 0.0 },
+  },
   austin: {
     destination: Cesium.Cartesian3.fromDegrees(-97.7431, 30.2672, 800),
     orientation: {
@@ -75,6 +79,26 @@ export function flyToAustin(viewer) {
       easingFunction: Cesium.EasingFunction.CUBIC_IN_OUT,
     });
   }, 500);
+  return () => {
+    clearTimeout(timer);
+    if (!viewer.isDestroyed()) viewer.camera.cancelFlight();
+  };
+}
+
+/** Início brasileiro: Avenida Paulista e bairros centrais em perspectiva oblíqua. */
+export function flyToSaoPaulo(viewer) {
+  viewer.camera.setView({
+    destination: Cesium.Cartesian3.fromDegrees(-46.6559, -23.5614, 17000),
+    orientation: { heading: Cesium.Math.toRadians(0), pitch: Cesium.Math.toRadians(-78), roll: 0 },
+  });
+  const timer = setTimeout(() => {
+    if (viewer.isDestroyed()) return;
+    viewer.camera.flyTo({
+      ...CAMERA_PRESETS.saoPaulo,
+      duration: 3.0,
+      easingFunction: Cesium.EasingFunction.CUBIC_IN_OUT,
+    });
+  }, 350);
   return () => {
     clearTimeout(timer);
     if (!viewer.isDestroyed()) viewer.camera.cancelFlight();
