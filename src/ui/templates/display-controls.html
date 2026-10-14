@@ -1,7 +1,7 @@
   <!-- Post-processing toggles (top-right) -->
   <div id="pp-toggles" class="panel-collapsible collapsed" data-panel-id="pp-toggles">
     <div class="compact pp-header-row">
-      <span class="pp-header-label">DISPLAY</span>
+      <span class="pp-header-label">VISUALIZAÇÃO</span>
       <span class="panel-divider" aria-hidden="true"></span>
       <button class="panel-collapse-btn pp-collapse-btn" data-collapse-target="pp-toggles" title="Collapse panel">&#x25C0;</button>
     </div>
@@ -26,27 +26,27 @@
       </div>
       <output id="cyber-sonar-status" class="cyber-sonar-control" role="status"></output>
       <div class="pp-slider-row cyber-sonar-control cyber-sonar-setting" id="cyber-sonar-rings-row">
-        <label class="pp-slider-mini-label" for="cyber-sonar-rings">Rings</label>
+        <label class="pp-slider-mini-label" for="cyber-sonar-rings">Anéis</label>
         <input type="range" class="pp-slider" id="cyber-sonar-rings" min="3" max="12" step="1" value="8" aria-label="Sonar ring count" />
         <span class="pp-slider-value" id="cyber-sonar-rings-value">8</span>
       </div>
       <div class="pp-slider-row cyber-sonar-control cyber-sonar-setting" id="cyber-sonar-range-row">
-        <label class="pp-slider-mini-label" for="cyber-sonar-range">Range</label>
+        <label class="pp-slider-mini-label" for="cyber-sonar-range">Alcance</label>
         <input type="range" class="pp-slider" id="cyber-sonar-range" min="60" max="120" step="1" value="100" aria-label="Sonar ring range" />
         <span class="pp-slider-value" id="cyber-sonar-range-value">100%</span>
       </div>
       <div class="pp-slider-row cyber-sonar-control cyber-sonar-setting" id="cyber-sonar-intensity-row">
-        <label class="pp-slider-mini-label" for="cyber-sonar-intensity">Power</label>
+        <label class="pp-slider-mini-label" for="cyber-sonar-intensity">Potência</label>
         <input type="range" class="pp-slider" id="cyber-sonar-intensity" min="0" max="100" step="1" value="70" aria-label="Sonar intensity" />
         <span class="pp-slider-value" id="cyber-sonar-intensity-value">70%</span>
       </div>
       <div class="pp-slider-row cyber-sonar-control cyber-sonar-setting" id="cyber-sonar-opacity-row">
-        <label class="pp-slider-mini-label" for="cyber-sonar-opacity">Opacity</label>
+        <label class="pp-slider-mini-label" for="cyber-sonar-opacity">Opacidade</label>
         <input type="range" class="pp-slider" id="cyber-sonar-opacity" min="35" max="100" step="1" value="84" aria-label="Cyber contact and label opacity" title="Minimum opacity for map dots, icons, models, brackets, and labels between sonar passes" />
         <span class="pp-slider-value" id="cyber-sonar-opacity-value">84%</span>
       </div>
       <div class="pp-slider-row cyber-sonar-control cyber-sonar-setting" id="cyber-sonar-sector-row">
-        <label class="pp-slider-mini-label" for="cyber-sonar-sector">Sector</label>
+        <label class="pp-slider-mini-label" for="cyber-sonar-sector">Setor</label>
         <input type="range" class="pp-slider" id="cyber-sonar-sector" min="8" max="60" step="1" value="24" aria-label="Sonar sector width" />
         <span class="pp-slider-value" id="cyber-sonar-sector-value">24°</span>
       </div>
@@ -57,15 +57,15 @@
         <span class="pp-label">DETECT</span>
       </button>
       <div class="pp-slider-row detection-slider-row" id="detection-slider-row">
-        <label class="pp-slider-mini-label" for="detection-density-slider">Density</label>
+        <label class="pp-slider-mini-label" for="detection-density-slider">Densidade</label>
         <input type="range" class="pp-slider" id="detection-density-slider" min="0" max="100" step="25" value="50" aria-label="Detection label density" />
         <span class="pp-slider-value" id="detection-density-value">50%</span>
       </div>
       <div class="pp-slider-row detection-allocation-row" id="detection-allocation-row">
-        <span class="pp-slider-mini-label">Allocation</span>
+        <span class="pp-slider-mini-label">Distribuição</span>
         <div class="pp-mode-seg detection-allocation-seg" role="radiogroup" aria-label="Detection label allocation">
-          <button class="pp-mode-btn active" id="detection-allocation-elastic" data-allocation="ELASTIC" role="radio" aria-checked="true">Elastic</button>
-          <button class="pp-mode-btn" id="detection-allocation-weighted" data-allocation="WEIGHTED" role="radio" aria-checked="false">Weighted</button>
+          <button class="pp-mode-btn active" id="detection-allocation-elastic" data-allocation="ELASTIC" role="radio" aria-checked="true">Elástica</button>
+          <button class="pp-mode-btn" id="detection-allocation-weighted" data-allocation="WEIGHTED" role="radio" aria-checked="false">Ponderada</button>
         </div>
       </div>
       <div class="pp-slider-row detection-fade-row" id="detection-fade-row">
@@ -74,7 +74,7 @@
         <span class="pp-slider-value" id="detection-fade-value">7%</span>
       </div>
       <div class="pp-slider-row detection-opacity-row" id="detection-opacity-row">
-        <label class="pp-slider-mini-label" for="detection-opacity-slider">Outside</label>
+        <label class="pp-slider-mini-label" for="detection-opacity-slider">Fora</label>
         <input type="range" class="pp-slider" id="detection-opacity-slider" min="0" max="100" step="1" value="1" aria-label="Detection opacity outside the keyhole" title="World-overlay label and card opacity beyond the fade distance" />
         <span class="pp-slider-value" id="detection-opacity-value">1%</span>
       </div>
@@ -82,7 +82,7 @@
     <!-- The one shared preset-parameter surface is inserted here at runtime. -->
     <div id="param-slider-panel">
       <div class="param-panel-header">
-        <span class="param-panel-title">PARAMETERS</span>
+        <span class="param-panel-title">PARÂMETROS</span>
         <span class="param-panel-divider"></span>
         <button class="panel-collapse-btn" id="param-panel-collapse-btn" data-collapse-target="param-slider-panel" title="Collapse panel">−</button>
       </div>
@@ -98,10 +98,10 @@
         <span class="pp-label">3D</span>
       </button>
       <div class="pp-slider-row visible" id="models3d-mode-row">
-        <span class="pp-slider-mini-label">Models</span>
+        <span class="pp-slider-mini-label">Modelos</span>
         <div class="pp-mode-seg" role="radiogroup" aria-label="3D model coverage">
-          <button class="pp-mode-btn active" id="models3d-mode-proximity" data-mode="proximity" role="radio" aria-checked="true">Proximity</button>
-          <button class="pp-mode-btn" id="models3d-mode-all" data-mode="all" role="radio" aria-checked="false">All</button>
+          <button class="pp-mode-btn active" id="models3d-mode-proximity" data-mode="proximity" role="radio" aria-checked="true">Proximidade</button>
+          <button class="pp-mode-btn" id="models3d-mode-all" data-mode="all" role="radio" aria-checked="false">Todos</button>
         </div>
       </div>
     </div>
@@ -124,12 +124,12 @@
     <div class="pp-toggle-group">
       <button class="pp-toggle-btn" id="draw-toggle" title="Draw on the world — click vertices, double-click or Enter to finish, Esc to cancel" aria-pressed="false">
         <span class="pp-icon material-symbols-outlined" aria-hidden="true">draw</span>
-        <span class="pp-label">Draw</span>
+        <span class="pp-label">Desenhar</span>
       </button>
       <div class="pp-slider-row" id="draw-mode-row">
-        <span class="pp-slider-mini-label">Shape</span>
+        <span class="pp-slider-mini-label">Forma</span>
         <div class="pp-mode-seg" role="radiogroup" aria-label="Shape to draw">
-          <button class="pp-mode-btn active" data-shape="area" role="radio" aria-checked="true">Area</button>
+          <button class="pp-mode-btn active" data-shape="area" role="radio" aria-checked="true">Área</button>
           <button class="pp-mode-btn" data-shape="line" role="radio" aria-checked="false">Line</button>
           <button class="pp-mode-btn" data-shape="pin" role="radio" aria-checked="false">Pin</button>
         </div>
