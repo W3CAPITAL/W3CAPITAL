@@ -35,7 +35,16 @@ export class LocationControls {
     this.destroyed = false;
     this.rowGeneration = 0;
     elements.pills.replaceChildren();
-    for (const [id, city] of Object.entries(cities)) {
+    // Keep Brazilian cities (São Paulo first) visible before international presets.
+    const prioridadeBrasil = ['saoPaulo','rioDeJaneiro','brasilia','beloHorizonte','salvador','recife'];
+    const orderedCities = Object.entries(cities).sort(([a], [b]) => {
+      const rank = id => {
+        const idx = prioridadeBrasil.indexOf(id);
+        return idx >= 0 ? idx : 100;
+      };
+      return rank(a) - rank(b);
+    });
+    for (const [id, city] of orderedCities) {
       const pill = doc.createElement('button');
       pill.type = 'button';
       pill.className = 'location-pill';
