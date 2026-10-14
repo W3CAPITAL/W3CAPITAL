@@ -1,4 +1,4 @@
-name: Importar God Eye Brasil completo
+name: Validar God Eye W3 Brasil
 on:
   push:
     branches: [main]
@@ -12,84 +12,12 @@ on:
       - 'vercel.json'
   workflow_dispatch:
 permissions:
-  contents: write
+  contents: read
 concurrency:
   group: import-god-eye-full
   cancel-in-progress: false
 jobs:
-  copy-complete-source:
-    if: github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    timeout-minutes: 25
-    steps:
-      - name: Abrir repositorio de destino
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # actions/checkout v4.2.2
-        with:
-          fetch-depth: 1
-          persist-credentials: true
-      - name: Copiar todos os arquivos da versao W1 God-Eye Brasil
-        shell: bash
-        run: |
-          set -euo pipefail
-          original="$(git rev-parse HEAD)"
-          git fetch --depth=1 --no-tags https://github.com/W1CAPITAL/God-Eye.git main
-          source="$(git rev-parse FETCH_HEAD)"
-          source_count="$(git ls-tree -r --name-only FETCH_HEAD | wc -l)"
-          echo "Fonte original: ${source}"
-          echo "Arquivos da fonte: ${source_count}"
-          if [ "${source_count}" -lt 1500 ]; then
-            echo "::error::Importacao cancelada: fonte incompleta."
-            exit 1
-          fi
-          git show "${original}:README.md" >/tmp/w3-profile-original-readme.md
-          git read-tree --reset -u FETCH_HEAD
-          mkdir -p docs
-          cp /tmp/w3-profile-original-readme.md docs/W3CAPITAL-profile-README-original.md
-          printf '# Proveniencia God-Eye completo\n\nRepositorio de origem: https://github.com/W1CAPITAL/God-Eye\nCommit importado: %s\nImportado para raiz de https://github.com/W3CAPITAL/W3CAPITAL\nO codigo inclui todas as adicoes BR registradas ate esse commit.\n' "${source}" > W3-GOD-EYE-SOURCE.md
-          # GitHub App restrictions: the imported workflow files cannot be pushed.
-          # Keep this destination's own workflow, and save upstream workflow YAML as docs.
-          mkdir -p docs/god-eye-upstream-workflows
-          if [ -d .github/workflows ]; then
-            find .github/workflows -type f -name '*.yml' ! -name import-god-eye.yml -exec cp {} docs/god-eye-upstream-workflows/ \;
-            find .github/workflows -type f -name '*.yaml' ! -name import-god-eye.yml -exec cp {} docs/god-eye-upstream-workflows/ \;
-          fi
-          git rm -rf --ignore-unmatch .github/workflows
-          mkdir -p .github/workflows
-          git show "${original}:.github/workflows/import-god-eye.yml" > .github/workflows/import-god-eye.yml
-          git add -A
-          if [ "$(git ls-files | wc -l)" -lt 1500 ]; then
-            echo "::error::Repositorio de destino esta incompleto apos importacao."
-            exit 1
-          fi
-      - name: Preparar Node para validar projeto completo
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24.14.0'
-          cache: npm
-      - name: Instalar dependencias
-        run: npm ci --no-audit --no-fund
-      - name: Testar CEP, municipios, ruas, cameras e APIs brasileiras
-        run: npm run test:br
-      - name: Compilar aplicativo completo para Vercel
-        run: npm run build
-      - name: Validar saida de compilacao
-        run: |
-          test -s dist/index.html
-          test -d dist/assets
-          test -d dist/cesium
-      - name: Publicar projeto completo em main
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git diff --cached --quiet && exit 0
-          git commit -m "feat: importar God-Eye View completo com todas as adicoes brasileiras"
-          git push origin HEAD:main
-
   verify-w3-br:
-    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     timeout-minutes: 18
     steps:
