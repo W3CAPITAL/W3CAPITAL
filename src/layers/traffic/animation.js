@@ -134,6 +134,7 @@ export function createAnimation({
       const jamProminent = bucket === 'jam' && parts.style.jamDensityOn();
       const id = layerState._nextDotId++;
       const point = layerState._pointCollection.add({
+        id: 'GEV-TRANSITO-' + id,
         position: Cesium.Cartesian3.clone(layerState._scratchLerp),
         pixelSize,
         // No flow data → today's exact simulated white.
@@ -220,6 +221,7 @@ export function createAnimation({
         // A road-end departure is a new simulated vehicle at the entry, never
         // a teleport attributed to the departed vehicle's stable identity.
         dot.id = layerState._nextDotId++;
+        dot.point.id = 'GEV-TRANSITO-' + dot.id;
         dot.segIdx = dot.direction > 0 ? 0 : dot.numSegments - 1;
         dot.t = dot.direction > 0 ? 0 : 1;
         dot.born = now;
