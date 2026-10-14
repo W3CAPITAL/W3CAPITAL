@@ -1,3 +1,4 @@
+import { trafficDotDetails, VEHICLE_PICK_PREFIX } from './selection.js';
 import {
   normalizeRoadMode,
   resolveRoadMode,
@@ -42,7 +43,7 @@ export function createControls({ state: layerState, services, parts, source }) {
   const methods = {
     id: 'traffic',
 
-    name: 'Street Traffic',
+    name: 'Trânsito nas ruas',
 
     icon: '🚗',
 
@@ -191,6 +192,18 @@ export function createControls({ state: layerState, services, parts, source }) {
      * @param {number}  [options.seed]     - Integer seed to offset the sampling start.
      * @returns {Array<{position:Cesium.Cartesian3, id:string, type:string}>}
      */
+    /** Ficha do ponto selecionado, sem atribuir dados de placa ou GPS real. */
+    findByQuery(query) {
+      const key = String(query || '');
+      if (!key.startsWith(VEHICLE_PICK_PREFIX)) return null;
+      const n = Number(key.slice(VEHICLE_PICK_PREFIX.length));
+      if (!Number.isSafeInteger(n)) return null;
+      const dot = layerState._enabled ? layerState._dots.find(d => d.id === n) : null;
+      if (!dot) return null;
+      const details = trafficDotDetails(dot, layerState._liveMode);
+      return { id: key, name: details.label, source: details.source, simulated: true };
+    },
+
     getDetectableObjects(options = {}) {
       if (!layerState._enabled || layerState._dots.length === 0) return [];
       const maxCount = Number.isFinite(options.maxCount)
