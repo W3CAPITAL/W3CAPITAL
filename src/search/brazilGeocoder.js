@@ -8,6 +8,15 @@ export function isBrazilianAddress(query) {
   const text = String(query ?? '').trim();
   return text.length >= 3 && text.length <= 180 && (STREET.test(text) || BRAZIL.test(text) || /,\s*(?:s[aã]o paulo|campinas|guarulhos|osasco|santo andr[eé]|s[aã]o bernardo do campo|rio de janeiro|belo horizonte)(?:\s*[-,]\s*[A-Za-z]{2})?\s*$/i.test(text) || /\s[-–]\s(?:SP|RJ|MG|PR|RS|SC|BA)\s*$/i.test(text));
 }
+/** Without a supplied municipality the W3 map searches streets in São Paulo first.
+ * Explicit Brazilian cities, states and coordinates always remain unchanged.
+ */
+export function normalizeBrazilSearchQuery(query) {
+  const text=String(query??'').trim();
+  if(STREET.test(text) && !/[,;]|\\s[-–]\\s[A-Za-z]{2}$/.test(text))
+    return text+', São Paulo - SP';
+  return text;
+}
 export function createBrazilGeocoder({ fetchImpl = (...args) => fetch(...args), endpoint = '/api/geocode' } = {}) {
   const cache = new Map();
   return {
@@ -22,12 +31,13 @@ export function createBrazilGeocoder({ fetchImpl = (...args) => fetch(...args), 
       const requestSignal = signal ? AbortSignal.any([signal, deadline]) : deadline;
       try {
         const url = new URL(endpoint, globalThis.location?.origin || 'http://localhost');
-        url.searchParams.set('q', query);
+        const resolvedQuery = normalizeBrazilSearchQuery(query);
+        url.searchParams.set('q', resolvedQuery);
         url.searchParams.set('country', 'br');
         const response = await fetchImpl(url.pathname + url.search, { signal: requestSignal });
         if (!response.ok) return { place: null, answered: false };
         const data = await response.json();
-        const ranked = data?.status === 'OK' ? rankBrazilCandidates(query, data.results) : [];
+        const ranked = data?.status === 'OK' ? rankBrazilCandidates(resolvedQuery, data.results) : [];
         const place = ranked.length ? normalizeGooglePlace(ranked[0]) : null;
         // Brazilian address results are authoritative; never replace with a nearby landmark.
         if (place) { place.exact = true; place.searchSource = 'endereco-br'; }
