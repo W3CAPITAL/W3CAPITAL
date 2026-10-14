@@ -42,7 +42,7 @@ export async function createApplicationScene({
       else window.__GOOGLE_MAPS_API_KEY__ = previousKey;
     });
   }
-  loaderStatus.textContent = 'Configuring viewer...';
+  loaderStatus.textContent = 'Preparando mapa 3D...';
   // Provider attribution stays visible, including clean-view and recording.
   const creditContainer = document.createElement('div');
   creditContainer.id = 'cesium-credits';
@@ -61,8 +61,8 @@ export async function createApplicationScene({
   configureCreditKeyboardAccess(document);
   loaderStatus.textContent =
     googleApiKey || googleTokens || cesiumToken
-      ? 'Loading Google 3D Tiles...'
-      : 'Loading the keyless globe...';
+      ? 'Carregando prédios 3D do Google...'
+      : 'Carregando mapa público sem chave...';
   const photoreal = await loadPhotorealisticTileset(Cesium, {
     googleApiKey,
     googleTokens,
@@ -90,12 +90,12 @@ export async function createApplicationScene({
         tileError,
       );
       const tileErrorDetail = describeError(tileError);
-      loaderStatus.textContent = `Google 3D Tiles unavailable (${tileErrorDetail}). Loading the keyless globe...`;
+      loaderStatus.textContent = `Google 3D indisponível (${tileErrorDetail}). Carregando mapa público...`;
     }
     viewer.scene.globe.show = true;
   }
 
-  loaderStatus.textContent = 'Initializing systems...';
+  loaderStatus.textContent = 'Inicializando serviços e camadas...';
 
   const mapStackController = new MapController(viewer, {
     requestRender: governorRequestRender,
