@@ -39,6 +39,16 @@ jobs:
           mkdir -p docs
           cp /tmp/w3-profile-original-readme.md docs/W3CAPITAL-profile-README-original.md
           printf '# Proveniencia God-Eye completo\n\nRepositorio de origem: https://github.com/W1CAPITAL/God-Eye\nCommit importado: %s\nImportado para raiz de https://github.com/W3CAPITAL/W3CAPITAL\nO codigo inclui todas as adicoes BR registradas ate esse commit.\n' "${source}" > W3-GOD-EYE-SOURCE.md
+          # GitHub App restrictions: the imported workflow files cannot be pushed.
+          # Keep this destination's own workflow, and save upstream workflow YAML as docs.
+          mkdir -p docs/god-eye-upstream-workflows
+          if [ -d .github/workflows ]; then
+            find .github/workflows -type f -name '*.yml' ! -name import-god-eye.yml -exec cp {} docs/god-eye-upstream-workflows/ \;
+            find .github/workflows -type f -name '*.yaml' ! -name import-god-eye.yml -exec cp {} docs/god-eye-upstream-workflows/ \;
+          fi
+          git rm -r --ignore-unmatch .github/workflows
+          mkdir -p .github/workflows
+          git show "${original}:.github/workflows/import-god-eye.yml" > .github/workflows/import-god-eye.yml
           git add -A
           if [ "$(git ls-files | wc -l)" -lt 1500 ]; then
             echo "::error::Repositorio de destino esta incompleto apos importacao."
