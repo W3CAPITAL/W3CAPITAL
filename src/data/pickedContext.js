@@ -25,6 +25,7 @@ const KIND_BY_LAYER = Object.freeze({
   'local-adsb': 'aircraft',
   'ais-live-vessels': 'vessel',
   satellites: 'satellite',
+  traffic: 'vehicle',
   'local-firms': 'fire',
 });
 
