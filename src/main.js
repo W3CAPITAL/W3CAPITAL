@@ -1,3 +1,4 @@
+import './layers/traffic/selection.css';
 import { installBrazilExplorer } from './ui/brExplorer.js';
 import './ui/brAccessibility.css';
 import { createStandaloneApplication } from './standalone/application.js';
