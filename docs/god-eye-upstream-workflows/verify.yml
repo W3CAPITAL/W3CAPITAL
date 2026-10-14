@@ -1,0 +1,38 @@
+name: Validar Gods Eye Brasil
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'api/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'vite.config.js'
+      - 'vercel.json'
+      - '.github/workflows/verify.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.14.0'
+          cache: npm
+      - name: Instalar dependências reproduzíveis
+        run: npm ci --no-audit --no-fund
+      - name: Testar CEP e buscas de ruas brasileiras
+        run: npm run test:br
+      - name: Compilar interface para Vercel
+        run: npm run build
+      - name: Verificar arquivos do deploy
+        run: |
+          test -s dist/index.html
+          test -d dist/cesium
+          test -d dist/assets

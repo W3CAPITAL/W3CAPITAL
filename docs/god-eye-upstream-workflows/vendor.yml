@@ -1,0 +1,21 @@
+name: Importar Gods Eye View e adaptar para Brasil
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'bootstrap/**'
+      - '.github/workflows/vendor.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: true
+      - name: Importar código original fixado e aplicar adaptação BR
+        run: bash bootstrap/vendor.sh

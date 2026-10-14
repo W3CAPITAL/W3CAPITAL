@@ -1,0 +1,20 @@
+.br-explorer-launcher{position:fixed;top:18px;right:18px;z-index:175;max-width:calc(100vw - 36px);min-height:44px;padding:10px 16px;border:1px solid #4be1fe;border-radius:10px;background:#091823;color:#e3f9ff;box-shadow:0 6px 20px #0009;cursor:pointer;font-weight:700;letter-spacing:.05em}
+.br-explorer-launcher:hover,.br-explorer-launcher:focus-visible{background:#10364a}
+.br-explorer-panel{position:fixed;right:18px;top:72px;bottom:130px;z-index:176;display:flex;flex-direction:column;gap:12px;width:min(450px,calc(100vw - 36px));padding:18px;overflow:auto;border:1px solid #36738d;border-radius:14px;background:rgba(7,17,27,.97);box-shadow:0 16px 54px #000b;color:#edf7ff;font-size:13px;backdrop-filter:none}
+.br-explorer-panel[hidden]{display:none!important}
+.br-explorer-heading,.br-explorer-tabs,.br-explorer-search,.br-explorer-footer{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.br-explorer-heading strong{font-size:15px;letter-spacing:.06em}.br-explorer-close{font-size:24px;min-width:42px}
+.br-explorer-panel button,.br-explorer-panel input{font:inherit;color:inherit;border-radius:8px;min-height:42px}
+.br-explorer-panel button{border:1px solid #467a91;background:#123243;padding:9px;cursor:pointer}
+.br-explorer-panel button:hover,.br-explorer-panel button:focus-visible,.br-explorer-panel .br-tab.active{background:#1a5772;outline-offset:2px}
+.br-explorer-panel button:disabled{opacity:.6;cursor:wait}
+.br-explorer-tabs button{flex:1}
+.br-explorer-search input{background:#0e1d2b;border:1px solid #518299;padding:10px;min-width:0;flex:1}
+.br-explorer-note,.br-explorer-source,.br-explorer-footer span{font-size:11px;color:#b7cfdd;line-height:1.5}
+.br-explorer-results{display:flex;flex-direction:column;gap:9px;min-height:70px;overscroll-behavior:contain}
+.br-explorer-item{display:flex;flex-direction:column;gap:5px;padding:12px;border:1px solid #29495b;border-radius:9px;background:#10232f}
+.br-explorer-item strong{font-size:13px}.br-explorer-item small{color:#b5cbd6;line-height:1.4}
+.br-explorer-item a{color:#77ddff;text-decoration:underline;text-underline-offset:3px;align-self:flex-start;padding:6px 0;min-height:26px}
+.br-explorer-message{padding:12px;color:#d4e7f2}
+@media (max-width:800px){.br-explorer-launcher{top:8px;right:8px;font-size:11px}.br-explorer-panel{top:58px;right:8px;bottom:120px;padding:12px;width:calc(100vw - 16px)}}
+@media (prefers-reduced-motion:reduce){.br-explorer-panel *, .br-explorer-launcher{animation:none!important;transition:none!important}}
