@@ -52,7 +52,7 @@
     "check:boundaries": "node scripts/check-import-directions.mjs && node scripts/check-package-boundaries.mjs",
     "qa:transit": "node scripts/qa-transit.mjs",
     "mcp": "node server/mcp/stdio.js",
-    "test:br": "node --test src/search/brazilGeocoder.test.mjs src/search/cepGeocoder.test.mjs src/search/brazilPrecision.test.mjs src/data/brCameras.test.mjs src/data/spDistricts.test.mjs src/locationStatus.test.mjs src/config/publicBrazilApis.test.mjs api/sp-municipios.test.mjs src/layers/traffic/selection.test.mjs"
+    "test:br": "node --test src/search/brazilGeocoder.test.mjs src/search/cepGeocoder.test.mjs src/search/brazilPrecision.test.mjs src/data/brCameras.test.mjs src/data/spDistricts.test.mjs src/locationStatus.test.mjs src/config/publicBrazilApis.test.mjs api/sp-municipios.test.mjs src/layers/traffic/selection.test.mjs src/ui/ptBrLocale.test.mjs"
   },
   "dependencies": {
     "@jtarrio/signals": "^0.10.0",
