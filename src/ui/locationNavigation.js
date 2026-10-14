@@ -66,7 +66,7 @@ export class LocationNavigation {
       return {
         ok: false,
         orbiting: false,
-        error: 'No active landmark to orbit — fly to a landmark first',
+        error: 'Selecione um ponto de interesse antes de ativar a órbita',
       };
     }
     this._toggleOrbit();
@@ -87,8 +87,8 @@ export class LocationNavigation {
       this._currentPoi = null;
       this._collapsePOIRow();
       this._updateLocationMiniStatus();
-    } else if (change.type === 'missing') this._showToast('Location not found');
-    else if (change.type === 'failed') this._showToast('Search failed');
+    } else if (change.type === 'missing') this._showToast('Endereço não encontrado. Confira o CEP, rua, município e UF.');
+    else if (change.type === 'failed') this._showToast('Falha na pesquisa de endereço. Tente novamente.');
     else if (change.type === 'settled')
       this._settleLocationSearchUi(change.generation);
     else if (
@@ -117,7 +117,7 @@ export class LocationNavigation {
         }),
       onResult: (destination) => {
         if (destination.outlineUnavailable)
-          this._showToast('Detailed outline unavailable');
+          this._showToast('Contorno detalhado indisponível');
       },
       onError: (error) => console.error('[Search] Geocoding failed:', error),
     });
@@ -288,7 +288,7 @@ export class LocationNavigation {
 
   _toggleOrbit() {
     if (!this._currentTarget) {
-      this._showToast('Fly to a POI first');
+      this._showToast('Selecione primeiro um lugar no mapa');
       return;
     }
 
