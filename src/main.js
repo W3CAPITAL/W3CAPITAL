@@ -1,9 +1,11 @@
 import './layers/traffic/selection.css';
+import { installPtBrLocale } from './ui/ptBrLocale.js';
 import { installBrazilExplorer } from './ui/brExplorer.js';
 import './ui/brAccessibility.css';
 import { createStandaloneApplication } from './standalone/application.js';
 import { describeError } from './standalone/errors.js';
 
+installPtBrLocale();
 installBrazilExplorer();
 
 const application = createStandaloneApplication({
