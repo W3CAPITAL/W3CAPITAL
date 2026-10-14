@@ -46,7 +46,7 @@ jobs:
             find .github/workflows -type f -name '*.yml' ! -name import-god-eye.yml -exec cp {} docs/god-eye-upstream-workflows/ \;
             find .github/workflows -type f -name '*.yaml' ! -name import-god-eye.yml -exec cp {} docs/god-eye-upstream-workflows/ \;
           fi
-          git rm -r --ignore-unmatch .github/workflows
+          git rm -rf --ignore-unmatch .github/workflows
           mkdir -p .github/workflows
           git show "${original}:.github/workflows/import-god-eye.yml" > .github/workflows/import-god-eye.yml
           git add -A
