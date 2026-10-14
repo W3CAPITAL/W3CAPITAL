@@ -32,7 +32,7 @@ export function scoreBrazilCandidate(query, candidate) {
   if (/\b(?:united states|estados unidos|portugal|argentina|colombia|france)\b/.test(normalized) && !/\bbrasil\b/.test(normalized)) return -Infinity;
   const coord = candidate?.geometry?.location || {lat:Number(candidate?.lat),lng:Number(candidate?.lon)};
   const lat = Number(coord.lat), lng = Number(coord.lng);
-  if (!Number.isFinite(lat) || !Number.isFinite(lng) || lat > 5.3 || lat < -33.8 || lng > -34 || lng < -74) return -Infinity;
+  if (!Number.isFinite(lat) || !Number.isFinite(lng) || lat > 5.3 || lat < -33.8 || lng > -28 || lng < -74) return -Infinity;
   if (desc.state && !tokens.has(desc.state.toLowerCase()) && !tokens.has(stateName(desc.state))) {
     // Brazilian geocoders often omit the state abbreviation; never accept an explicitly different one.
     const other = [...UF].find(uf=>uf!==desc.state && tokens.has(uf.toLowerCase()));
